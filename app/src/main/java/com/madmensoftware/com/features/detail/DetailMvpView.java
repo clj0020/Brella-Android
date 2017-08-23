@@ -12,4 +12,7 @@ public interface DetailMvpView extends MvpView {
     void showError(Throwable error);
 
     void showQrCode(String key);
+
+    void showQrCodeDialog(String key);
+
 }

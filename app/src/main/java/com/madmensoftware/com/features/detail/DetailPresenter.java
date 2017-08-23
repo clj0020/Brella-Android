@@ -1,5 +1,7 @@
 package com.madmensoftware.com.features.detail;
 
+import android.util.Log;
+
 import javax.inject.Inject;
 
 import com.madmensoftware.com.data.DataManager;
@@ -41,5 +43,9 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
                             getView().showProgress(false);
                             getView().showError(throwable);
                         });
+    }
+
+    public void showQRFabClicked(DetailMvpView detailMvpView, String barName) {
+        detailMvpView.showQrCodeDialog(barName);
     }
 }

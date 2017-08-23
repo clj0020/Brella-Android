@@ -16,4 +16,5 @@ public interface ActivityComponent {
     void inject(LoginActivity loginActivity);
 
     void inject(DetailActivity detailActivity);
+
 }

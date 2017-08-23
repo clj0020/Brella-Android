@@ -1,17 +1,21 @@
 package com.madmensoftware.com.features.detail;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-
-import com.bumptech.glide.Glide;
+import android.widget.TextView;
 
 import javax.inject.Inject;
 
@@ -22,9 +26,11 @@ import com.madmensoftware.com.R;
 import com.madmensoftware.com.data.model.response.Bar;
 import com.madmensoftware.com.features.base.BaseActivity;
 import com.madmensoftware.com.features.common.ErrorView;
+import com.madmensoftware.com.features.detail.dialog.QRCodeDialog;
 import com.madmensoftware.com.injection.component.ActivityComponent;
 import com.madmensoftware.com.util.QrCodeHelper;
 
+import butterknife.OnClick;
 import timber.log.Timber;
 
 public class DetailActivity extends BaseActivity implements DetailMvpView, ErrorView.ErrorListener {
@@ -43,6 +49,15 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Error
     @BindView(R.id.image_qr_code)
     ImageView qrCode;
 
+    @BindView(R.id.text_view_address)
+    TextView address;
+
+    @BindView(R.id.text_view_phone)
+    TextView phone;
+
+    @BindView(R.id.show_qr_dialog_fab)
+    FloatingActionButton showQRFab;
+
     @BindView(R.id.progress)
     ProgressBar progress;
 
@@ -55,7 +70,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Error
     @BindView(R.id.layout_bar)
     View pokemonLayout;
 
-    private String pokemonName;
+    private String barName;
 
     public static Intent getStartIntent(Context context, String pokemonName) {
         Intent intent = new Intent(context, DetailActivity.class);
@@ -67,19 +82,19 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Error
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        pokemonName = getIntent().getStringExtra(EXTRA_POKEMON_NAME);
-        if (pokemonName == null) {
+        barName = getIntent().getStringExtra(EXTRA_POKEMON_NAME);
+        if (barName == null) {
             throw new IllegalArgumentException("Detail Activity requires a pokemon name@");
         }
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
-        setTitle(pokemonName.substring(0, 1).toUpperCase() + pokemonName.substring(1));
+        setTitle(barName.substring(0, 1).toUpperCase() + barName.substring(1));
 
         errorView.setErrorListener(this);
 
-        detailPresenter.getBar(pokemonName);
+        detailPresenter.getBar(barName);
     }
 
     @Override
@@ -107,9 +122,51 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Error
 //        if (bar.sprites != null && bar.sprites.frontDefault != null) {
 //            Glide.with(this).load(bar.sprites.frontDefault).into(pokemonImage);
 //        }
+
+        Log.i("Bar Address", bar.getAddress() + "");
+        Log.i("Bar Name", bar.getName() + "");
+        Log.i("Bar Phone", bar.getPhone() + "");
+
+        address.setText(bar.getAddress());
+        phone.setText(bar.getPhone() + "");
+
         pokemonLayout.setVisibility(View.VISIBLE);
     }
 
+    @OnClick(R.id.show_qr_dialog_fab)
+    void onClick() {
+        detailPresenter.showQRFabClicked(this, barName);
+    }
+
+    @Override
+    public void showQrCodeDialog(String key) {
+        // DialogFragment.show() will take care of adding the fragment
+        // in a transaction.  We also want to remove any currently showing
+        // dialog, so make our own transaction and take care of that here.
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+
+        QRCodeDialog newFragment = QRCodeDialog.newInstance(key);
+        newFragment.show(ft, "dialog");
+    }
+
+
+    @Override
+    public void showQrCode(String key) {
+        QrCodeHelper qrCodeHelper = new QrCodeHelper();
+
+        try {
+            Bitmap bitmap = qrCodeHelper.encodeAsBitmap(key);
+            qrCode.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void showProgress(boolean show) {
@@ -125,19 +182,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Error
     }
 
     @Override
-    public void showQrCode(String key) {
-        QrCodeHelper qrCodeHelper = new QrCodeHelper();
-
-        try {
-            Bitmap bitmap = qrCodeHelper.encodeAsBitmap(key);
-            qrCode.setImageBitmap(bitmap);
-        } catch (WriterException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public void onReloadData() {
-        detailPresenter.getBar(pokemonName);
+        detailPresenter.getBar(barName);
     }
 }
