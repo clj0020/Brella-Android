@@ -24,5 +24,28 @@ public class NavigationPresenter extends BasePresenter<NavigationMvpView> {
     }
 
 
+    public void navigateToHome(NavigationMvpView mvpView) {
+        mvpView.navigateToHome();
+    }
 
+    public void navigateToPasses(NavigationMvpView mvpView) {
+        mvpView.navigateToPasses();
+    }
+
+    public void navigateToEvents(NavigationMvpView mvpView) {
+        mvpView.navigateToEvents();
+    }
+
+    public void navigateToBars(NavigationMvpView mvpView) {
+        mvpView.navigateToBars();
+    }
+
+
+    public void navigateToFriends(NavigationMvpView mvpView) {
+        mvpView.navigateToFriends();
+    }
+
+    public void navigateToSettings(NavigationMvpView mvpView) {
+        mvpView.navigateToSettings();
+    }
 }

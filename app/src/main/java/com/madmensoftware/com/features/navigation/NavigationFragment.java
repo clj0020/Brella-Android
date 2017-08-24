@@ -18,6 +18,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by clj00 on 8/23/2017.
@@ -30,23 +31,36 @@ public class NavigationFragment extends BaseFragment implements NavigationMvpVie
     @Inject
     NavigationPresenter navigationPresenter;
 
-    @BindView(R.id.navigation_home)
-    Button navigationHome;
+    @OnClick(R.id.navigation_home)
+    void homeClicked() {
+        navigationPresenter.navigateToHome(this);
+    }
 
-    @BindView(R.id.navigation_passes)
-    Button navigationPasses;
+    @OnClick(R.id.navigation_passes)
+    void passedClicked() {
+        navigationPresenter.navigateToPasses(this);
+    }
 
-    @BindView(R.id.navigation_events)
-    Button navigationEvents;
+    @OnClick(R.id.navigation_events)
+    void eventsClicked() {
+        navigationPresenter.navigateToEvents(this);
+    }
 
-    @BindView(R.id.navigation_bars)
-    Button navigationBars;
+    @OnClick(R.id.navigation_bars)
+    void barsClicked() {
+        navigationPresenter.navigateToBars(this);
+    }
 
-    @BindView(R.id.navigation_friends)
-    Button navigationFriends;
+    @OnClick(R.id.navigation_friends)
+    void friendsClicked() {
+        navigationPresenter.navigateToFriends(this);
+    }
 
-    @BindView(R.id.navigation_settings)
-    Button navigationSettings;
+    @OnClick(R.id.navigation_settings)
+    void settingsClicked() {
+        navigationPresenter.navigateToSettings(this);
+    }
+
 
     @Override
     public int getLayout() {
@@ -97,5 +111,33 @@ public class NavigationFragment extends BaseFragment implements NavigationMvpVie
     }
 
 
+    @Override
+    public void navigateToHome() {
+        ((MainActivity) getActivity()).showBarListFragment();
+    }
 
+    @Override
+    public void navigateToPasses() {
+        ((MainActivity) getActivity()).showPassesFragment();
+    }
+
+    @Override
+    public void navigateToEvents() {
+        ((MainActivity) getActivity()).showEventsFragment();
+    }
+
+    @Override
+    public void navigateToBars() {
+        ((MainActivity) getActivity()).showBarListFragment();
+    }
+
+    @Override
+    public void navigateToFriends() {
+        ((MainActivity) getActivity()).showFriendsFragment();
+    }
+
+    @Override
+    public void navigateToSettings() {
+        ((MainActivity) getActivity()).showSettingsFragment();
+    }
 }

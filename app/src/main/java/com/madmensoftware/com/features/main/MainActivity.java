@@ -14,8 +14,12 @@ import com.madmensoftware.com.R;
 import com.madmensoftware.com.features.bar_detail.BarDetailFragment;
 import com.madmensoftware.com.features.bar_list.BarListFragment;
 import com.madmensoftware.com.features.base.BaseActivity;
+import com.madmensoftware.com.features.events.EventsFragment;
+import com.madmensoftware.com.features.friends.FriendsFragment;
 import com.madmensoftware.com.features.login.LoginFragment;
 import com.madmensoftware.com.features.navigation.NavigationFragment;
+import com.madmensoftware.com.features.passes.PassesFragment;
+import com.madmensoftware.com.features.settings.SettingsFragment;
 import com.madmensoftware.com.injection.component.ActivityComponent;
 
 public class MainActivity extends BaseActivity implements MainMvpView {
@@ -123,6 +127,59 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     }
 
     @Override
+    public void showPassesFragment() {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.grow, R.anim.slide_right)
+                .replace(R.id.fragment_container, PassesFragment.newInstance(), PassesFragment.TAG)
+                .addToBackStack(BACK_STACK_ROOT_TAG)
+                .commit();
+    }
+
+    @Override
+    public void showEventsFragment() {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.grow, R.anim.slide_right)
+                .replace(R.id.fragment_container, EventsFragment.newInstance(), EventsFragment.TAG)
+                .addToBackStack(BACK_STACK_ROOT_TAG)
+                .commit();
+    }
+
+    @Override
+    public void showFriendsFragment() {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.grow, R.anim.slide_right)
+                .replace(R.id.fragment_container, FriendsFragment.newInstance(), FriendsFragment.TAG)
+                .addToBackStack(BACK_STACK_ROOT_TAG)
+                .commit();
+    }
+
+
+    @Override
+    public void showSettingsFragment() {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.grow, R.anim.slide_right)
+                .replace(R.id.fragment_container, SettingsFragment.newInstance(), SettingsFragment.TAG)
+                .addToBackStack(BACK_STACK_ROOT_TAG)
+                .commit();
+    }
+
+    @Override
     public void showNavigationFragment() {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -133,6 +190,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
                 .addToBackStack(BACK_STACK_ROOT_TAG)
                 .commit();
     }
+
 
     @Override
     public void showToolbar() {

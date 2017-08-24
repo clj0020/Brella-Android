@@ -21,6 +21,14 @@ public interface MainMvpView extends MvpView {
 
     void showNavigationFragment();
 
+    void showPassesFragment();
+
+    void showEventsFragment();
+
+    void showFriendsFragment();
+
+    void showSettingsFragment();
+
     void showToolbar();
 
     void hideToolbar();
