@@ -9,6 +9,8 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import butterknife.ButterKnife;
 import com.madmensoftware.com.MvpStarterApplication;
+import com.madmensoftware.com.R;
+import com.madmensoftware.com.features.main.MainActivity;
 import com.madmensoftware.com.injection.component.ActivityComponent;
 import com.madmensoftware.com.injection.component.ConfigPersistentComponent;
 import com.madmensoftware.com.injection.component.DaggerConfigPersistentComponent;
@@ -73,7 +75,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+//                finish();
+                ((MainActivity) this).showBarListFragment();
+                return true;
+            case R.id.menu_navigation_drawer:
+                ((MainActivity) this).showNavigationFragment();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -1,10 +1,13 @@
-package com.madmensoftware.com.features.main;
+package com.madmensoftware.com.features.bar_list;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.madmensoftware.com.R;
+import com.madmensoftware.com.data.model.response.Bar;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,14 +16,15 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.madmensoftware.com.R;
-import com.madmensoftware.com.data.model.response.Bar;
-
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 
-public class BarAdapter extends RecyclerView.Adapter<BarAdapter.BarViewHolder> {
+/**
+ * Created by clj00 on 8/23/2017.
+ */
+
+public class BarAdapter extends RecyclerView.Adapter<com.madmensoftware.com.features.bar_list.BarAdapter.BarListViewHolder> {
 
     private List<Bar> barList;
     private Subject<String> barClickSubject;
@@ -37,15 +41,15 @@ public class BarAdapter extends RecyclerView.Adapter<BarAdapter.BarViewHolder> {
     }
 
     @Override
-    public BarViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public com.madmensoftware.com.features.bar_list.BarAdapter.BarListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view =
                 LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_bar, parent, false);
-        return new BarViewHolder(view);
+        return new com.madmensoftware.com.features.bar_list.BarAdapter.BarListViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(BarViewHolder holder, int position) {
+    public void onBindViewHolder(com.madmensoftware.com.features.bar_list.BarAdapter.BarListViewHolder holder, int position) {
         Bar bar = this.barList.get(position);
         holder.onBind(bar.getName());
     }
@@ -59,14 +63,14 @@ public class BarAdapter extends RecyclerView.Adapter<BarAdapter.BarViewHolder> {
         return barClickSubject;
     }
 
-    class BarViewHolder extends RecyclerView.ViewHolder {
+    class BarListViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.text_name)
         TextView nameText;
 
         private String bar;
 
-        BarViewHolder(View itemView) {
+        BarListViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(v -> barClickSubject.onNext(bar));

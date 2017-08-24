@@ -29,21 +29,22 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
         super.attachView(mvpView);
     }
 
-    public void getBars(int limit) {
-        checkViewAttached();
-        getView().showProgress(true);
-
-        dataManager
-                .getBarList(limit)
-                .compose(SchedulerUtils.ioToMain())
-                .subscribe(
-                        bars -> {
-                            getView().showProgress(false);
-                            getView().showBars((List<Bar>) bars);
-                        },
-                        throwable -> {
-                            getView().showProgress(false);
-                            getView().showError(throwable);
-                        });
+    public void showBarListFragment(MainMvpView mainMvpView) {
+        mainMvpView.showBarListFragment();
     }
+
+    public void showToolbar(MainMvpView mainMvpView) {
+        mainMvpView.showToolbar();
+    }
+
+    public void hideToolbar(MainMvpView mainMvpView) {
+        mainMvpView.hideToolbar();
+    }
+
+
+    public void showBarDetailFragment(MainMvpView mainMvpView, String barName) {
+        mainMvpView.showBarDetailFragment(barName);
+    }
+
+
 }

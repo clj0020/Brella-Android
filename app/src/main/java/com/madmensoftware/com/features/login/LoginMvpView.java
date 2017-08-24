@@ -14,5 +14,5 @@ public interface LoginMvpView extends MvpView {
 
     void showError(Throwable error);
 
-    void navigateToHomeScreen();
+    void loginSubmitted();
 }

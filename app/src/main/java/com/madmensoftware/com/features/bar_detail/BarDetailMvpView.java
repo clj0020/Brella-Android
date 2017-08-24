@@ -1,9 +1,13 @@
-package com.madmensoftware.com.features.detail;
+package com.madmensoftware.com.features.bar_detail;
 
 import com.madmensoftware.com.data.model.response.Bar;
 import com.madmensoftware.com.features.base.MvpView;
 
-public interface DetailMvpView extends MvpView {
+/**
+ * Created by clj00 on 8/23/2017.
+ */
+
+public interface BarDetailMvpView extends MvpView {
 
     void showBar(Bar bar);
 
@@ -12,7 +16,5 @@ public interface DetailMvpView extends MvpView {
     void showError(Throwable error);
 
     void showQrCode(String key);
-
-    void showQrCodeDialog(String key);
 
 }

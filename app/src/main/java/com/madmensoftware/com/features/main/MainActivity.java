@@ -1,51 +1,35 @@
 package com.madmensoftware.com.features.main;
 
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.Toast;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import com.madmensoftware.com.R;
-import com.madmensoftware.com.data.model.response.Bar;
+import com.madmensoftware.com.features.bar_detail.BarDetailFragment;
+import com.madmensoftware.com.features.bar_list.BarListFragment;
 import com.madmensoftware.com.features.base.BaseActivity;
-import com.madmensoftware.com.features.common.ErrorView;
-import com.madmensoftware.com.features.detail.DetailActivity;
+import com.madmensoftware.com.features.login.LoginFragment;
+import com.madmensoftware.com.features.navigation.NavigationFragment;
 import com.madmensoftware.com.injection.component.ActivityComponent;
-import io.reactivex.disposables.Disposable;
-import timber.log.Timber;
 
-public class MainActivity extends BaseActivity implements MainMvpView, ErrorView.ErrorListener {
+public class MainActivity extends BaseActivity implements MainMvpView {
 
-    private static final int BAR_COUNT = 20;
+    private static final String BACK_STACK_ROOT_TAG = "root_fragment";
 
-    @Inject
-    BarAdapter barAdapter;
     @Inject
     MainPresenter mainPresenter;
 
-    @BindView(R.id.view_error)
-    ErrorView errorView;
-
-    @BindView(R.id.progress)
-    ProgressBar progressBar;
-
-    @BindView(R.id.recycler_bar)
-    RecyclerView barRecycler;
-
-    @BindView(R.id.swipe_to_refresh)
-    SwipeRefreshLayout swipeRefreshLayout;
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout appBarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,34 +37,7 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
 
         setSupportActionBar(toolbar);
 
-        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.primary);
-        swipeRefreshLayout.setColorSchemeResources(R.color.white);
-        swipeRefreshLayout.setOnRefreshListener(() -> mainPresenter.getBars(BAR_COUNT));
-
-        barRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        barRecycler.setAdapter(barAdapter);
-        barClicked();
-        errorView.setErrorListener(this);
-
-        mainPresenter.getBars(BAR_COUNT);
-    }
-
-    private void barClicked() {
-        Disposable disposable =
-                barAdapter
-                        .getBarClick()
-                        .subscribe(
-                                pokemon ->
-                                        startActivity(DetailActivity.getStartIntent(this, pokemon)),
-                                throwable -> {
-                                    Timber.e(throwable, "Bar click failed");
-                                    Toast.makeText(
-                                            this,
-                                            R.string.error_something_bad_happened,
-                                            Toast.LENGTH_LONG)
-                                            .show();
-                                });
-        mainPresenter.addDisposable(disposable);
+        mainPresenter.showBarListFragment(this);
     }
 
     @Override
@@ -104,42 +61,106 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
     }
 
     @Override
-    public void showBars(List<Bar> bars) {
-        barAdapter.setBar(bars);
-        barRecycler.setVisibility(View.VISIBLE);
-        swipeRefreshLayout.setVisibility(View.VISIBLE);
-    }
+    public void showLoginFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
-    @Override
-    public void showProgress(boolean show) {
-        if (show) {
-            if (barRecycler.getVisibility() == View.VISIBLE
-                    && barAdapter.getItemCount() > 0) {
-                swipeRefreshLayout.setRefreshing(true);
-            } else {
-                progressBar.setVisibility(View.VISIBLE);
+        if (fragmentManager.findFragmentById(R.id.fragment_container) != null) {
+            fragmentManager.popBackStack();
 
-                barRecycler.setVisibility(View.GONE);
-                swipeRefreshLayout.setVisibility(View.GONE);
-            }
-
-            errorView.setVisibility(View.GONE);
-        } else {
-            swipeRefreshLayout.setRefreshing(false);
-            progressBar.setVisibility(View.GONE);
+            fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_left, R.anim.slide_right)
+                    .replace(R.id.fragment_container, LoginFragment.newInstance(), LoginFragment.TAG)
+                    .addToBackStack("login_fragment")
+                    .commit();
+        }
+        else {
+            fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_left, R.anim.slide_right)
+                    .add(R.id.fragment_container, LoginFragment.newInstance(), LoginFragment.TAG)
+                    .addToBackStack("login_fragment")
+                    .commit();
         }
     }
 
     @Override
-    public void showError(Throwable error) {
-        barRecycler.setVisibility(View.GONE);
-        swipeRefreshLayout.setVisibility(View.GONE);
-        errorView.setVisibility(View.VISIBLE);
-        Timber.e(error, "There was an error retrieving the pokemon");
+    public void showBarListFragment() {
+        // Pop off everything up to and including the current tab
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        if (fragmentManager.findFragmentById(R.id.fragment_container) != null) {
+            fragmentManager.popBackStack();
+
+            fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_left, R.anim.slide_right)
+                    .replace(R.id.fragment_container, BarListFragment.newInstance(), BarListFragment.TAG)
+                    .commit();
+        }
+        else {
+            fragmentManager.beginTransaction()
+                    .setCustomAnimations(
+                            R.anim.slide_left,
+                            R.anim.slide_right
+                    ).add(
+                            R.id.fragment_container,
+                            BarListFragment.newInstance(),
+                            BarListFragment.TAG
+                    )
+                    .commit();
+        }
     }
 
     @Override
-    public void onReloadData() {
-        mainPresenter.getBars(BAR_COUNT);
+    public void showBarDetailFragment(String barName) {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.grow, R.anim.slide_right)
+                .replace(R.id.fragment_container, BarDetailFragment.newInstance(barName), BarDetailFragment.TAG)
+                .addToBackStack(BACK_STACK_ROOT_TAG)
+                .commit();
     }
+
+    @Override
+    public void showNavigationFragment() {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.grow, R.anim.slide_right)
+                .replace(R.id.fragment_container, NavigationFragment.newInstance(), NavigationFragment.TAG)
+                .addToBackStack(BACK_STACK_ROOT_TAG)
+                .commit();
+    }
+
+    @Override
+    public void showToolbar() {
+        appBarLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideToolbar() {
+        appBarLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+
+        // If the back stack has nothing in it when the back button is pressed, then close the application
+        if (backStackEntryCount == 0) {
+            finish();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 }

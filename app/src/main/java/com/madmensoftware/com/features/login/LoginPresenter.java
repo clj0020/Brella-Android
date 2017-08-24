@@ -26,7 +26,7 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
     }
 
     public void loginSubmitted(LoginMvpView mvpView) {
-        mvpView.navigateToHomeScreen();
+        mvpView.loginSubmitted();
     }
 
 }

@@ -1,26 +1,31 @@
 package com.madmensoftware.com.features.login;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.madmensoftware.com.R;
-import com.madmensoftware.com.features.base.BaseActivity;
+import com.madmensoftware.com.features.base.BaseFragment;
 import com.madmensoftware.com.features.common.ErrorView;
 import com.madmensoftware.com.features.main.MainActivity;
-import com.madmensoftware.com.injection.component.ActivityComponent;
+import com.madmensoftware.com.injection.component.FragmentComponent;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-public class LoginActivity extends BaseActivity implements LoginMvpView, ErrorView.ErrorListener {
+public class LoginFragment extends BaseFragment implements LoginMvpView, ErrorView.ErrorListener {
+
+    public static final String TAG = "LoginFragment";
 
     @Inject
     LoginPresenter loginPresenter;
@@ -40,27 +45,46 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, ErrorVi
     @BindView(R.id.progress)
     ProgressBar progressBar;
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    public static LoginFragment newInstance() {
+        Bundle args = new Bundle();
+
+        LoginFragment fragment = new LoginFragment();
+        fragment.setArguments(args);
+
+        Log.i("LoginFragment", "LoginFragment created");
+
+        return fragment;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
-        setSupportActionBar(toolbar);
+    @Override
+    public View onCreateView(
+            LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
 
+        super.onCreateView(inflater, container, savedInstanceState);
 
-        errorView.setErrorListener(this);
+        View view = inflater.inflate(getLayout(), container, false);
+        ButterKnife.bind(this, view);
+
+        ((MainActivity) getActivity()).hideToolbar();
+
+        return view;
     }
 
     @Override
     public int getLayout() {
-        return R.layout.activity_login;
+        return R.layout.fragment_login;
     }
 
     @Override
-    protected void inject(ActivityComponent activityComponent) {
-        activityComponent.inject(this);
+    protected void inject(FragmentComponent fragmentComponent) {
+        fragmentComponent.inject(this);
     }
 
     @Override
@@ -78,7 +102,10 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, ErrorVi
         loginPresenter.loginSubmitted(this);
     }
 
+    @Override
+    public void loginSubmitted() {
 
+    }
 
     @Override
     public void showProgress(boolean show) {
@@ -94,12 +121,6 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, ErrorVi
     public void showError(Throwable error) {
         errorView.setVisibility(View.VISIBLE);
         Timber.e(error, "There was an error retrieving the pokemon");
-    }
-
-    @Override
-    public void navigateToHomeScreen() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
     }
 
     @Override

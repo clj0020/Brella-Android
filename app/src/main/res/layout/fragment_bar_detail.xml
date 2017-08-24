@@ -1,0 +1,86 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.madmensoftware.com.features.bar_detail.BarDetailFragment">
+
+
+    <RelativeLayout
+        android:id="@+id/layout_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <ImageView
+            android:id="@+id/image_bar"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="16dp" />
+
+        <ImageView
+            android:id="@+id/image_qr_code"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="16dp" />
+
+
+        <TextView
+            android:id="@+id/text_view_address"
+            android:layout_below="@id/image_qr_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="30dp"
+            tools:text="42 Magnolia"/>
+
+        <TextView
+            android:id="@+id/text_view_phone"
+            android:layout_below="@id/text_view_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="30dp"
+            tools:text="42 Magnolia"/>
+
+
+        <LinearLayout
+            android:id="@+id/layout_stats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image_bar"
+            android:orientation="vertical"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp" />
+
+    </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/show_qr_dialog_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_dialog_info"
+        app:layout_anchor="@id/layout_bar"
+        app:layout_anchorGravity="bottom|right|end"/>
+
+    <com.madmensoftware.com.features.common.ErrorView
+        android:id="@+id/view_error"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+</FrameLayout>

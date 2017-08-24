@@ -6,10 +6,23 @@ import com.madmensoftware.com.data.model.response.Bar;
 import com.madmensoftware.com.features.base.MvpView;
 
 public interface MainMvpView extends MvpView {
+//
+//    void showBars(List<Bar> bars);
+//
+//    void showProgress(boolean show);
+//
+//    void showError(Throwable error);
 
-    void showBars(List<Bar> bars);
+    void showBarListFragment();
 
-    void showProgress(boolean show);
+    void showBarDetailFragment(String barName);
 
-    void showError(Throwable error);
+    void showLoginFragment();
+
+    void showNavigationFragment();
+
+    void showToolbar();
+
+    void hideToolbar();
+
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MvpStarter</string>
+    <string name="app_name">Brella</string>
 
     <string name="dialog_action_ok">OK</string>
     <!--<string name="dialog_action_cancel">Cancel</string>-->
@@ -20,4 +20,7 @@
 
     <string name="parse_server_url">https://brello-server.herokuapp.com/parse</string>
     <string name="parse_app_id">com.madmensoftware.brello.app</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
