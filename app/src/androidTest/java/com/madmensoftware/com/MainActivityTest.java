@@ -10,24 +10,13 @@ import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 
-import java.util.List;
-
 import com.madmensoftware.com.common.TestComponentRule;
-import com.madmensoftware.com.common.TestDataFactory;
-import com.madmensoftware.com.data.model.response.Bar;
-import com.madmensoftware.com.features.main.MainActivity;
+import com.madmensoftware.com.ui.main.MainActivity;
 import com.madmensoftware.com.util.ErrorTestUtil;
-import io.reactivex.Single;
 
-import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {

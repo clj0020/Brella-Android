@@ -1,8 +1,8 @@
 package com.madmensoftware.com.injection.component;
 
 import dagger.Component;
-import com.madmensoftware.com.features.base.BaseActivity;
-import com.madmensoftware.com.features.base.BaseFragment;
+import com.madmensoftware.com.ui.base.BaseActivity;
+import com.madmensoftware.com.ui.base.BaseFragment;
 import com.madmensoftware.com.injection.ConfigPersistent;
 import com.madmensoftware.com.injection.module.ActivityModule;
 import com.madmensoftware.com.injection.module.FragmentModule;
@@ -20,4 +20,5 @@ public interface ConfigPersistentComponent {
     ActivityComponent activityComponent(ActivityModule activityModule);
 
     FragmentComponent fragmentComponent(FragmentModule fragmentModule);
+
 }

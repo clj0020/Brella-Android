@@ -6,7 +6,11 @@ import android.support.v4.app.Fragment;
 
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.annotations.SchedulerSupport;
+
 import com.madmensoftware.com.injection.ActivityContext;
+import com.madmensoftware.com.util.AppSchedulerProvider;
+import com.madmensoftware.com.util.SchedulerProvider;
 
 @Module
 public class FragmentModule {
@@ -30,5 +34,10 @@ public class FragmentModule {
     @ActivityContext
     Context providesContext() {
         return fragment.getActivity();
+    }
+
+    @Provides
+    SchedulerProvider provideSchedulerProvider() {
+        return new AppSchedulerProvider();
     }
 }

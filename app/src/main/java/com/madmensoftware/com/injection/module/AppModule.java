@@ -6,7 +6,11 @@ import android.content.SharedPreferences;
 
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.disposables.CompositeDisposable;
+
 import com.madmensoftware.com.injection.ApplicationContext;
+import com.madmensoftware.com.util.AppSchedulerProvider;
+import com.madmensoftware.com.util.SchedulerProvider;
 
 import static com.madmensoftware.com.Constants.PREF_FILE_NAME;
 
@@ -27,6 +31,16 @@ public class AppModule {
     @ApplicationContext
     Context provideContext() {
         return application;
+    }
+
+    @Provides
+    SchedulerProvider provideSchedulerProvider() {
+        return new AppSchedulerProvider();
+    }
+
+    @Provides
+    CompositeDisposable provideCompositeDisposable() {
+        return new CompositeDisposable();
     }
 
     @Provides

@@ -1,6 +1,6 @@
 package com.madmensoftware.com.injection.module;
 
-import com.madmensoftware.com.data.remote.BarService;
+import com.madmensoftware.com.data.remote.ParseService;
 
 import javax.inject.Singleton;
 
@@ -14,10 +14,10 @@ import retrofit2.Retrofit;
  */
 @Module(includes = {NetworkModule.class})
 public class ApiModule {
-
-    @Provides
-    @Singleton
-    BarService providePokemonApi(Retrofit retrofit) {
-        return retrofit.create(BarService.class);
-    }
+//
+//    @Provides
+//    @Singleton
+//    ParseService providePokemonApi(Retrofit retrofit) {
+//        return retrofit.create(ParseService.class);
+//    }
 }

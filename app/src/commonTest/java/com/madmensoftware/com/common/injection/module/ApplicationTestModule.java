@@ -8,7 +8,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import com.madmensoftware.com.data.DataManager;
-import com.madmensoftware.com.data.remote.BarService;
+import com.madmensoftware.com.data.remote.ParseService;
 import com.madmensoftware.com.injection.ApplicationContext;
 
 import static org.mockito.Mockito.mock;
@@ -48,7 +48,7 @@ public class ApplicationTestModule {
 
     @Provides
     @Singleton
-    BarService provideMvpBoilerplateService() {
-        return mock(BarService.class);
+    ParseService provideMvpBoilerplateService() {
+        return mock(ParseService.class);
     }
 }

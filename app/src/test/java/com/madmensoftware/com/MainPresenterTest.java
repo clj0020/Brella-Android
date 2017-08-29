@@ -13,8 +13,8 @@ import java.util.List;
 
 import com.madmensoftware.com.common.TestDataFactory;
 import com.madmensoftware.com.data.DataManager;
-import com.madmensoftware.com.features.main.MainMvpView;
-import com.madmensoftware.com.features.main.MainPresenter;
+import com.madmensoftware.com.ui.main.MainMvpView;
+import com.madmensoftware.com.ui.main.MainPresenter;
 import com.madmensoftware.com.util.RxSchedulersOverrideRule;
 import io.reactivex.Single;
 

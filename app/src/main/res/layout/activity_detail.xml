@@ -83,7 +83,7 @@
         app:layout_anchor="@id/layout_bar"
         app:layout_anchorGravity="bottom|right|end"/>
 
-    <com.madmensoftware.com.features.common.ErrorView
+    <com.madmensoftware.com.ui.common.ErrorView
         android:id="@+id/view_error"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

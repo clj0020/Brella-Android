@@ -6,6 +6,10 @@ import android.content.Context;
 import dagger.Module;
 import dagger.Provides;
 import com.madmensoftware.com.injection.ActivityContext;
+import com.madmensoftware.com.ui.bar_list.BarListMvpView;
+import com.madmensoftware.com.ui.bar_list.BarListPresenter;
+import com.madmensoftware.com.util.AppSchedulerProvider;
+import com.madmensoftware.com.util.SchedulerProvider;
 
 @Module
 public class ActivityModule {
@@ -26,4 +30,10 @@ public class ActivityModule {
     Context providesContext() {
         return activity;
     }
+
+    @Provides
+    SchedulerProvider provideSchedulerProvider() {
+        return new AppSchedulerProvider();
+    }
+
 }

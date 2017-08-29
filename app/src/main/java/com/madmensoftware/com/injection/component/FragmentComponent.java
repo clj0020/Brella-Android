@@ -2,14 +2,15 @@ package com.madmensoftware.com.injection.component;
 
 import dagger.Subcomponent;
 
-import com.madmensoftware.com.features.bar_detail.BarDetailFragment;
-import com.madmensoftware.com.features.bar_list.BarListFragment;
-import com.madmensoftware.com.features.events.EventsFragment;
-import com.madmensoftware.com.features.friends.FriendsFragment;
-import com.madmensoftware.com.features.login.LoginFragment;
-import com.madmensoftware.com.features.navigation.NavigationFragment;
-import com.madmensoftware.com.features.passes.PassesFragment;
-import com.madmensoftware.com.features.settings.SettingsFragment;
+import com.madmensoftware.com.ui.bar_detail.BarDetailFragment;
+import com.madmensoftware.com.ui.bar_list.BarListFragment;
+import com.madmensoftware.com.ui.events.EventsFragment;
+import com.madmensoftware.com.ui.friends.FriendsFragment;
+import com.madmensoftware.com.ui.login.LoginFragment;
+import com.madmensoftware.com.ui.navigation.NavigationFragment;
+import com.madmensoftware.com.ui.passes.PassesFragment;
+import com.madmensoftware.com.ui.registration.RegistrationFragment;
+import com.madmensoftware.com.ui.settings.SettingsFragment;
 import com.madmensoftware.com.injection.PerFragment;
 import com.madmensoftware.com.injection.module.FragmentModule;
 
@@ -21,6 +22,8 @@ import com.madmensoftware.com.injection.module.FragmentModule;
 public interface FragmentComponent {
 
     void inject(LoginFragment loginFragment);
+
+    void inject(RegistrationFragment registrationFragment);
 
     void inject(BarDetailFragment barDetailFragment);
 
@@ -35,6 +38,5 @@ public interface FragmentComponent {
     void inject(SettingsFragment settingsFragment);
 
     void inject(FriendsFragment friendsFragment);
-
 
 }

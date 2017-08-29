@@ -11,8 +11,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import com.madmensoftware.com.common.TestDataFactory;
 import com.madmensoftware.com.data.DataManager;
 import com.madmensoftware.com.data.model.response.Bar;
-import com.madmensoftware.com.features.detail.DetailMvpView;
-import com.madmensoftware.com.features.detail.DetailPresenter;
+import com.madmensoftware.com.ui.detail.DetailMvpView;
+import com.madmensoftware.com.ui.detail.DetailPresenter;
 import com.madmensoftware.com.util.RxSchedulersOverrideRule;
 import io.reactivex.Single;
 

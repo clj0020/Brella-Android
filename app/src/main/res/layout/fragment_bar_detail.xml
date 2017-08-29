@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.madmensoftware.com.features.bar_detail.BarDetailFragment">
+    tools:context="com.madmensoftware.com.ui.bar_detail.BarDetailFragment">
 
 
     <RelativeLayout
@@ -70,7 +70,7 @@
         app:layout_anchor="@id/layout_bar"
         app:layout_anchorGravity="bottom|right|end"/>
 
-    <com.madmensoftware.com.features.common.ErrorView
+    <com.madmensoftware.com.ui.common.ErrorView
         android:id="@+id/view_error"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
