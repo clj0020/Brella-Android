@@ -3,6 +3,7 @@ package com.madmensoftware.com.ui.bar_list;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ public class BarAdapter extends RecyclerView.Adapter<com.madmensoftware.com.ui.b
 
     private List<Bar> barList;
     private Subject<String> barClickSubject;
-    private Fragment fragment;
+    private Context context;
 
     @Inject
     BarAdapter() {
@@ -57,6 +58,19 @@ public class BarAdapter extends RecyclerView.Adapter<com.madmensoftware.com.ui.b
     public void onBindViewHolder(com.madmensoftware.com.ui.bar_list.BarAdapter.BarListViewHolder holder, int position) {
         Bar bar = this.barList.get(position);
         holder.onBind(bar.getName(), bar.getAddress());
+
+        if (bar.getBackgroundImageLink() != null) {
+            Log.i("BarAdapter", "Bar " + bar.getName() + " found backgroundLink: " + bar.getBackgroundImageLink());
+
+            Glide.with(context)
+                    .load(bar.getBackgroundImageLink())
+                    .into(holder.barBackground);
+        }
+        else {
+            // make sure Glide doesn't load anything into this view until told otherwise
+            Glide.clear(holder.barBackground);
+        }
+
     }
 
     @Override
@@ -81,7 +95,6 @@ public class BarAdapter extends RecyclerView.Adapter<com.madmensoftware.com.ui.b
 
         private String barName;
         private String barTagline;
-        private String backgroundLink;
 
         BarListViewHolder(View itemView) {
             super(itemView);
@@ -99,15 +112,9 @@ public class BarAdapter extends RecyclerView.Adapter<com.madmensoftware.com.ui.b
 
             taglineText.setText(barTagline);
         }
-
-        void addBackgroundImage(String link) {
-            if (link != null) {
-                Glide.with(fragment).load(link).into(barBackground);
-            }
-        }
     }
 
-    public void setFragment(Fragment fragment) {
-        this.fragment = fragment;
+    public void setContext(Context context) {
+        this.context = context;
     }
 }

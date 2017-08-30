@@ -10,9 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.madmensoftware.com.R;
 import com.madmensoftware.com.data.model.response.Bar;
 import com.madmensoftware.com.ui.base.BaseFragment;
@@ -37,6 +39,7 @@ public class BarListFragment extends BaseFragment implements BarListMvpView, Err
 
     public static final String TAG = "BarDetailFragment";
     private static final int BAR_COUNT = 20;
+    private static final String AD_IMAGE_LINK = "http://ak3.picdn.net/shutterstock/videos/6263588/thumb/1.jpg";
 
     @Inject
     BarListPresenter barListPresenter;
@@ -55,6 +58,9 @@ public class BarListFragment extends BaseFragment implements BarListMvpView, Err
 
     @BindView(R.id.swipe_to_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
+
+    @BindView(R.id.bar_list_ad_image)
+    ImageView barListAdImage;
 
 
     @Override
@@ -86,8 +92,12 @@ public class BarListFragment extends BaseFragment implements BarListMvpView, Err
         swipeRefreshLayout.setColorSchemeResources(R.color.white);
         swipeRefreshLayout.setOnRefreshListener(() -> barListPresenter.getBars(BAR_COUNT));
 
+        Glide.with(this)
+                .load(AD_IMAGE_LINK)
+                .into(barListAdImage);
+
         barRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        barAdapter.setFragment(this);
+        barAdapter.setContext(getContext());
         barRecycler.setAdapter(barAdapter);
         barClicked();
         errorView.setErrorListener(this);

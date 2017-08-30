@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,59 +6,56 @@
     tools:context="com.madmensoftware.com.ui.bar_detail.BarDetailFragment">
 
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/image_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
+
+    <ImageView
+        android:id="@+id/image_qr_code"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
+    <LinearLayout
         android:id="@+id/layout_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="bottom"
+        android:paddingBottom="30dp"
+        android:paddingLeft="30dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <ImageView
-            android:id="@+id/image_bar"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="16dp" />
-
-        <ImageView
-            android:id="@+id/image_qr_code"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="16dp" />
-
 
         <TextView
-            android:id="@+id/text_view_address"
-            android:layout_below="@id/image_qr_code"
+            android:id="@+id/bar_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:textSize="30dp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            tools:text="Skybar"/>
+
+        <TextView
+            android:id="@+id/bar_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="@android:color/white"
             tools:text="42 Magnolia"/>
 
         <TextView
-            android:id="@+id/text_view_phone"
-            android:layout_below="@id/text_view_address"
+            android:id="@+id/bar_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:textSize="30dp"
-            tools:text="42 Magnolia"/>
+            android:textSize="20dp"
+            android:textColor="@android:color/white"
+            tools:text="(205) 385 - 4832"/>
 
-
-        <LinearLayout
-            android:id="@+id/layout_stats"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/image_bar"
-            android:orientation="vertical"
-            android:paddingBottom="16dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp" />
-
-    </RelativeLayout>
+    </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/show_qr_dialog_fab"
@@ -83,4 +80,4 @@
         android:layout_gravity="center"
         android:visibility="gone" />
 
-</FrameLayout>
+</RelativeLayout>

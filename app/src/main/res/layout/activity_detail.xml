@@ -43,7 +43,7 @@
 
 
         <TextView
-            android:id="@+id/text_view_address"
+            android:id="@+id/bar_address"
             android:layout_below="@id/image_qr_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,8 +52,8 @@
             tools:text="42 Magnolia"/>
 
         <TextView
-            android:id="@+id/text_view_phone"
-            android:layout_below="@id/text_view_address"
+            android:id="@+id/bar_phone"
+            android:layout_below="@id/bar_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"

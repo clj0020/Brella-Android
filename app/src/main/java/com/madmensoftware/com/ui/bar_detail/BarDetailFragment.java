@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.zxing.WriterException;
 import com.madmensoftware.com.R;
 import com.madmensoftware.com.data.model.response.Bar;
@@ -48,10 +49,16 @@ public class BarDetailFragment extends BaseFragment implements BarDetailMvpView,
     @BindView(R.id.image_qr_code)
     ImageView qrCode;
 
-    @BindView(R.id.text_view_address)
+    @BindView(R.id.image_bar)
+    ImageView barImage;
+
+    @BindView(R.id.bar_name)
+    TextView name;
+
+    @BindView(R.id.bar_address)
     TextView address;
 
-    @BindView(R.id.text_view_phone)
+    @BindView(R.id.bar_phone)
     TextView phone;
 
     @BindView(R.id.show_qr_dialog_fab)
@@ -59,9 +66,6 @@ public class BarDetailFragment extends BaseFragment implements BarDetailMvpView,
 
     @BindView(R.id.progress)
     ProgressBar progress;
-
-    @BindView(R.id.layout_stats)
-    LinearLayout statLayout;
 
     @BindView(R.id.layout_bar)
     View barLayout;
@@ -142,12 +146,14 @@ public class BarDetailFragment extends BaseFragment implements BarDetailMvpView,
 
     @Override
     public void showBar(Bar bar) {
-//        if (bar.sprites != null && bar.sprites.frontDefault != null) {
-//            Glide.with(this).load(bar.sprites.frontDefault).into(pokemonImage);
-//        }
+        if (bar.getBackgroundImageLink() != null) {
+            Glide.with(this).load(bar.getBackgroundImageLink()).into(barImage);
+        }
 
+        name.setText(bar.getName());
         address.setText(bar.getAddress());
         phone.setText(bar.getPhone() + "");
+
 
         barLayout.setVisibility(View.VISIBLE);
     }
