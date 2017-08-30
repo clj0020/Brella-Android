@@ -1,12 +1,15 @@
 package com.madmensoftware.com.ui.bar_list;
 
+import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.madmensoftware.com.R;
 import com.madmensoftware.com.data.model.response.Bar;
 
@@ -29,6 +32,7 @@ public class BarAdapter extends RecyclerView.Adapter<com.madmensoftware.com.ui.b
 
     private List<Bar> barList;
     private Subject<String> barClickSubject;
+    private Fragment fragment;
 
     @Inject
     BarAdapter() {
@@ -52,7 +56,7 @@ public class BarAdapter extends RecyclerView.Adapter<com.madmensoftware.com.ui.b
     @Override
     public void onBindViewHolder(com.madmensoftware.com.ui.bar_list.BarAdapter.BarListViewHolder holder, int position) {
         Bar bar = this.barList.get(position);
-        holder.onBind(bar.getName());
+        holder.onBind(bar.getName(), bar.getAddress());
     }
 
     @Override
@@ -69,19 +73,41 @@ public class BarAdapter extends RecyclerView.Adapter<com.madmensoftware.com.ui.b
         @BindView(R.id.text_name)
         TextView nameText;
 
-        private String bar;
+        @BindView(R.id.text_tagline)
+        TextView taglineText;
+
+        @BindView(R.id.bar_background)
+        ImageView barBackground;
+
+        private String barName;
+        private String barTagline;
+        private String backgroundLink;
 
         BarListViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(v -> barClickSubject.onNext(bar));
+            itemView.setOnClickListener(v -> barClickSubject.onNext(barName));
         }
 
-        void onBind(String bar) {
-            this.bar = bar;
+        void onBind(String barName, String barTagline) {
+            this.barName = barName;
+            this.barTagline = barTagline;
+
             nameText.setText(
                     String.format(
-                            "%s%s", bar.substring(0, 1).toUpperCase(), bar.substring(1)));
+                            "%s%s", barName.substring(0, 1).toUpperCase(), barName.substring(1)));
+
+            taglineText.setText(barTagline);
         }
+
+        void addBackgroundImage(String link) {
+            if (link != null) {
+                Glide.with(fragment).load(link).into(barBackground);
+            }
+        }
+    }
+
+    public void setFragment(Fragment fragment) {
+        this.fragment = fragment;
     }
 }

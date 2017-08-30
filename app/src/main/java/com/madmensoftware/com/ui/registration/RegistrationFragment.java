@@ -4,11 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.madmensoftware.com.R;
 import com.madmensoftware.com.injection.component.FragmentComponent;
@@ -17,7 +20,11 @@ import com.madmensoftware.com.ui.common.ErrorView;
 import com.madmensoftware.com.ui.login.LoginFragment;
 import com.madmensoftware.com.ui.login.LoginPresenter;
 import com.madmensoftware.com.ui.main.MainActivity;
+import com.madmensoftware.com.util.ViewUtil;
 import com.parse.ParseUser;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -37,6 +44,9 @@ public class RegistrationFragment extends BaseFragment implements RegistrationMv
     @Inject
     RegistrationPresenter registrationPresenter;
 
+    @BindView(R.id.registration_name)
+    TextInputEditText registrationName;
+
     @BindView(R.id.registration_email)
     TextInputEditText registrationEmail;
 
@@ -45,11 +55,14 @@ public class RegistrationFragment extends BaseFragment implements RegistrationMv
 
     @OnClick(R.id.registration_submit)
     void onSubmit() {
-        ParseUser user = new ParseUser();
-        user.setUsername(registrationEmail.getText().toString());
-        user.setPassword(registrationPassword.getText().toString());
+        if (validInputs()) {
+            ParseUser user = new ParseUser();
+            user.setUsername(registrationEmail.getText().toString());
+            user.setEmail(registrationEmail.getText().toString());
+            user.setPassword(registrationPassword.getText().toString());
 
-        registrationPresenter.registrationSubmitted(user);
+            registrationPresenter.registrationSubmitted(user);
+        }
     }
 
     @OnClick(R.id.registration_to_login)
@@ -92,6 +105,19 @@ public class RegistrationFragment extends BaseFragment implements RegistrationMv
 
         ((MainActivity) getActivity()).hideToolbar();
 
+        registrationPassword.setOnEditorActionListener(
+                new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        boolean handled = false;
+                        if (actionId == EditorInfo.IME_ACTION_SEND) {
+                            onSubmit();
+                            handled = true;
+                        }
+                        return handled;
+                    }
+                });
+
         return view;
     }
 
@@ -133,6 +159,44 @@ public class RegistrationFragment extends BaseFragment implements RegistrationMv
         } else {
             progressBar.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void hideKeyboard() {
+        ViewUtil.hideKeyboard(getActivity());
+    }
+
+    @Override
+    public boolean validInputs() {
+
+        if (ViewUtil.isEmpty(registrationEmail)) {
+            registrationEmail.setError("Email is empty.");
+
+            return false;
+        }
+        if (ViewUtil.isEmpty(registrationPassword)) {
+            registrationPassword.setError("Password is empty.");
+
+            return false;
+        }
+        if (ViewUtil.isEmpty(registrationName)) {
+            registrationName.setError("Name is empty.");
+
+            return false;
+        }
+
+        if (!ViewUtil.isValidEmail(registrationEmail.getText().toString())) {
+            registrationEmail.setError("Email is invalid.");
+
+            return false;
+        }
+        if( !ViewUtil.isValidPassword(registrationPassword.getText().toString())) {
+            registrationPassword.setError("Password is invalid. Please enter a password longer than 6 characters.");
+
+            return false;
+        }
+
+        return true;
     }
 
     @Override

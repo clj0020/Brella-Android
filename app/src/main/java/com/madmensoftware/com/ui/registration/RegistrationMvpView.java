@@ -1,5 +1,8 @@
 package com.madmensoftware.com.ui.registration;
 
+import android.support.design.widget.TextInputEditText;
+import android.widget.EditText;
+
 import com.madmensoftware.com.ui.base.MvpView;
 
 /**
@@ -15,5 +18,9 @@ public interface RegistrationMvpView extends MvpView {
     void showBarListFragment();
 
     void goToLogin();
+
+    void hideKeyboard();
+
+    boolean validInputs();
 
 }

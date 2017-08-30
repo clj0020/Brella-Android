@@ -4,18 +4,21 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.madmensoftware.com.R;
 import com.madmensoftware.com.ui.base.BaseFragment;
 import com.madmensoftware.com.ui.common.ErrorView;
 import com.madmensoftware.com.ui.main.MainActivity;
 import com.madmensoftware.com.injection.component.FragmentComponent;
-import com.parse.ParseUser;
+import com.madmensoftware.com.util.ViewUtil;
 
 import javax.inject.Inject;
 
@@ -51,6 +54,17 @@ public class LoginFragment extends BaseFragment implements LoginMvpView, ErrorVi
         loginPresenter.goToRegistration();
     }
 
+    @OnClick(R.id.login_submit)
+    void onSubmit() {
+        if (validateInputs()) {
+            String email = loginEmail.getText().toString();
+            String password = loginPassword.getText().toString();
+
+            loginPresenter.loginSubmitted(email, password);
+        }
+    }
+
+
     public static LoginFragment newInstance() {
         Bundle args = new Bundle();
 
@@ -80,6 +94,19 @@ public class LoginFragment extends BaseFragment implements LoginMvpView, ErrorVi
 
         ((MainActivity) getActivity()).hideToolbar();
 
+        loginPassword.setOnEditorActionListener(
+                new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    boolean handled = false;
+                    if (actionId == EditorInfo.IME_ACTION_SEND) {
+                        onSubmit();
+                        handled = true;
+                    }
+                    return handled;
+                }
+            });
+
         return view;
     }
 
@@ -103,14 +130,6 @@ public class LoginFragment extends BaseFragment implements LoginMvpView, ErrorVi
         loginPresenter.detachView();
     }
 
-    @OnClick(R.id.login_submit)
-    void onSubmit() {
-        String email = loginEmail.getText().toString();
-        String password = loginPassword.getText().toString();
-
-        loginPresenter.loginSubmitted(email, password);
-    }
-
     @Override
     public void showBarListFragment() {
         ((MainActivity) getActivity()).showBarListFragment();
@@ -119,6 +138,37 @@ public class LoginFragment extends BaseFragment implements LoginMvpView, ErrorVi
     @Override
     public void goToRegistration() {
         ((MainActivity) getActivity()).showRegistrationFragment();
+    }
+
+    @Override
+    public void hideKeyboard() {
+        ViewUtil.hideKeyboard(getActivity());
+    }
+
+    @Override
+    public boolean validateInputs() {
+        if (ViewUtil.isEmpty(loginEmail)) {
+            loginEmail.setError("Email is empty.");
+
+            return false;
+        }
+        if (ViewUtil.isEmpty(loginPassword)) {
+            loginPassword.setError("Password is empty.");
+
+            return false;
+        }
+        if (!ViewUtil.isValidEmail(loginEmail.getText().toString())) {
+            loginEmail.setError("Email is invalid.");
+
+            return false;
+        }
+        if( !ViewUtil.isValidPassword(loginPassword.getText().toString())) {
+            loginPassword.setError("Password is invalid.");
+
+            return false;
+        }
+
+        return true;
     }
 
     @Override

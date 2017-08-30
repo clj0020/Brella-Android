@@ -55,7 +55,6 @@ public class DataManager {
                 })
                 .subscribeOn(Schedulers.io());
 
-
         return Observable
                 .concat(localStorageObservable, networkObservable)
                 .observeOn(AndroidSchedulers.mainThread());

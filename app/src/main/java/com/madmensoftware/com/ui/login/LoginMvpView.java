@@ -15,4 +15,8 @@ public interface LoginMvpView extends MvpView {
     void showBarListFragment();
 
     void goToRegistration();
+
+    void hideKeyboard();
+
+    boolean validateInputs();
 }

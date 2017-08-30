@@ -87,6 +87,7 @@ public class BarListFragment extends BaseFragment implements BarListMvpView, Err
         swipeRefreshLayout.setOnRefreshListener(() -> barListPresenter.getBars(BAR_COUNT));
 
         barRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        barAdapter.setFragment(this);
         barRecycler.setAdapter(barAdapter);
         barClicked();
         errorView.setErrorListener(this);

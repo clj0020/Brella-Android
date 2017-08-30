@@ -32,5 +32,13 @@ public class Bar extends ParseObject {
         put("Phone", phone);
     }
 
+    public void setBackgroundImageLink(String link) {
+        put("BackgroundImageLink", link);
+    }
+
+    public String getBackgroundImageLink() {
+        return getString("BackgroundImageLink");
+    }
+
 }
 

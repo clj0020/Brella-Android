@@ -68,6 +68,7 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
                     @Override
                     public void onError(Throwable e) {
                         Timber.e(e);
+
                     }
 
                     @Override
@@ -80,6 +81,7 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
 
                         Timber.i("Completed. Showing bar list fragment.");
 
+                        getView().hideKeyboard();
                         getView().showProgress(false);
                         getView().showBarListFragment();
                     }

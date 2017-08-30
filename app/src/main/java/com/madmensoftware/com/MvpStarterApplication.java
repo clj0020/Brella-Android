@@ -30,12 +30,15 @@ public class MvpStarterApplication extends Application {
         super.onCreate();
 
         if (BuildConfig.DEBUG) {
-            Timber.plant(new Timber.DebugTree());
+//            Timber.plant(new Timber.DebugTree());
             Stetho.initializeWithDefaults(this);
             LeakCanary.install(this);
             Sherlock.init(this);
             Traceur.enableLogging();
         }
+
+        Timber.plant(new Timber.DebugTree());
+
 
         // Parse
         Parse.enableLocalDatastore(this);
