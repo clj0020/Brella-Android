@@ -7,9 +7,13 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.disposables.CompositeDisposable;
+
 import com.madmensoftware.com.data.DataManager;
 import com.madmensoftware.com.data.remote.ParseService;
 import com.madmensoftware.com.injection.ApplicationContext;
+import com.madmensoftware.com.util.AppSchedulerProvider;
+import com.madmensoftware.com.util.SchedulerProvider;
 
 import static org.mockito.Mockito.mock;
 
@@ -36,6 +40,17 @@ public class ApplicationTestModule {
     Context provideContext() {
         return mApplication;
     }
+
+    @Provides
+    SchedulerProvider provideSchedulerProvider() {
+        return new AppSchedulerProvider();
+    }
+
+    @Provides
+    CompositeDisposable provideCompositeDisposable() {
+        return new CompositeDisposable();
+    }
+
 
     /**
      * ********** MOCKS ***********

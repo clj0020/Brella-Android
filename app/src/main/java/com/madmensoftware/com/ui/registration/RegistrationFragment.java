@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.madmensoftware.com.R;
+import com.madmensoftware.com.data.model.response.User;
 import com.madmensoftware.com.injection.component.FragmentComponent;
 import com.madmensoftware.com.ui.base.BaseFragment;
 import com.madmensoftware.com.ui.common.ErrorView;
@@ -56,10 +57,12 @@ public class RegistrationFragment extends BaseFragment implements RegistrationMv
     @OnClick(R.id.registration_submit)
     void onSubmit() {
         if (validInputs()) {
-            ParseUser user = new ParseUser();
+            User user = new User();
+
             user.setUsername(registrationEmail.getText().toString());
             user.setEmail(registrationEmail.getText().toString());
             user.setPassword(registrationPassword.getText().toString());
+            user.setName(registrationName.getText().toString());
 
             registrationPresenter.registrationSubmitted(user);
         }

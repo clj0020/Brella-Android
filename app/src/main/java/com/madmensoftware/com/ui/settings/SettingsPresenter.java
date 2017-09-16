@@ -1,24 +1,16 @@
 package com.madmensoftware.com.ui.settings;
 
-import android.util.Log;
-
 import com.madmensoftware.com.data.DataManager;
+import com.madmensoftware.com.data.model.response.User;
 import com.madmensoftware.com.injection.ConfigPersistent;
 import com.madmensoftware.com.ui.base.BasePresenter;
 import com.madmensoftware.com.util.SchedulerProvider;
-import com.madmensoftware.com.util.rx.scheduler.SchedulerUtils;
 import com.parse.ParseUser;
+import com.stripe.android.CustomerSession;
 
 import javax.inject.Inject;
-
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -52,6 +44,12 @@ public class SettingsPresenter extends BasePresenter<SettingsMvpView> {
         }
     }
 
+    public void showUserInfo() {
+        User user = (User) ParseUser.getCurrentUser();
+
+        getView().showUserInfo(user);
+    }
+
     public void logOut() {
         checkViewAttached();
 
@@ -68,6 +66,8 @@ public class SettingsPresenter extends BasePresenter<SettingsMvpView> {
 
             @Override
             public void onComplete() {
+
+
                 if (!isViewAttached()) {
                     Timber.e("View is not attached.");
                     return;

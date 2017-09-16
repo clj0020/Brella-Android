@@ -28,6 +28,8 @@ public interface MainMvpView extends MvpView {
 
     void showSettingsFragment();
 
+    void showAddPaymentFragment();
+
     void showToolbar();
 
     void hideToolbar();

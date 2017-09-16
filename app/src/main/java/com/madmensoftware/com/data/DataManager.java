@@ -1,19 +1,30 @@
 package com.madmensoftware.com.data;
 
+import android.util.Log;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import com.madmensoftware.com.data.local.DbManager;
 import com.madmensoftware.com.data.model.response.Bar;
+import com.madmensoftware.com.data.model.response.User;
 import com.madmensoftware.com.data.remote.ParseService;
+import com.madmensoftware.com.data.remote.StripeService;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.stripe.android.model.Card;
+import com.stripe.android.model.Token;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import rx.functions.Action1;
 import rx.parse2.ParseObservable;
 
 
@@ -25,11 +36,14 @@ public class DataManager {
 
     private ParseService parseService;
     private final DbManager mDataManager;
+    private StripeService stripeService;
 
     @Inject
     public DataManager(ParseService parseService,
+                       StripeService stripeService,
                        DbManager dataManager) {
         this.parseService = parseService;
+        this.stripeService = stripeService;
         this.mDataManager = dataManager;
     }
 
@@ -74,9 +88,21 @@ public class DataManager {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<ParseUser> signUp(ParseUser user) {
-        return parseService.signUp(user)
-                .subscribeOn(Schedulers.newThread())
+    public Observable<String> signUp(User user) {
+        return parseService.createCustomer(user)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<HashMap> createEphemeralKey(Map<String, String> apiParams) {
+        return stripeService.createEphemeralKey(apiParams)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<String> createCustomer(ParseUser user) {
+        return parseService.createCustomer(user)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

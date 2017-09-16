@@ -1,17 +1,23 @@
 package com.madmensoftware.com.ui.main;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import com.madmensoftware.com.R;
+import com.madmensoftware.com.data.model.response.User;
+import com.madmensoftware.com.ui.add_payment.AddPaymentFragment;
 import com.madmensoftware.com.ui.bar_detail.BarDetailFragment;
 import com.madmensoftware.com.ui.bar_list.BarListFragment;
 import com.madmensoftware.com.ui.base.BaseActivity;
@@ -24,6 +30,8 @@ import com.madmensoftware.com.ui.registration.RegistrationFragment;
 import com.madmensoftware.com.ui.settings.SettingsFragment;
 import com.madmensoftware.com.injection.component.ActivityComponent;
 import com.parse.ParseUser;
+import com.stripe.android.CustomerSession;
+import com.stripe.android.model.Customer;
 
 
 // TODO: Check how the threading is working. It's beginning to hang a little bit.
@@ -40,22 +48,37 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     @BindView(R.id.app_bar_layout)
     AppBarLayout appBarLayout;
 
+    CustomerSession.CustomerRetrievalListener mCustomerRetrievalListener = new CustomerSession.CustomerRetrievalListener() {
+        @Override
+        public void onCustomerRetrieved(@NonNull Customer customer) {
+            Toast.makeText(MainActivity.this, "Customer retrieved!", Toast.LENGTH_LONG).show();
+            Log.i("MainActivity", "customer retrieved: " + customer.getId());
+            
+        }
+
+        @Override
+        public void onError(int errorCode, @Nullable String errorMessage) {
+            Toast.makeText(MainActivity.this, "Customer not retrieved!", Toast.LENGTH_LONG).show();
+            Log.e("MainActivity", "customer not retrieved: " + errorMessage);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setSupportActionBar(toolbar);
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
+        User currentUser = (User) ParseUser.getCurrentUser();
         if (currentUser != null) {
             // do stuff with the user
+            mainPresenter.initCustomerSession(currentUser);
+            mainPresenter.retrieveCustomer(mCustomerRetrievalListener);
             mainPresenter.showBarListFragment(this);
+
         } else {
             // show the signup or login screen
             mainPresenter.showRegistrationFragment(this);
         }
-
-
     }
 
     @Override
@@ -218,6 +241,18 @@ public class MainActivity extends BaseActivity implements MainMvpView {
         fragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.grow, R.anim.slide_right)
                 .replace(R.id.fragment_container, NavigationFragment.newInstance(), NavigationFragment.TAG)
+                .addToBackStack(BACK_STACK_ROOT_TAG)
+                .commit();
+    }
+
+    @Override
+    public void showAddPaymentFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.grow, R.anim.slide_right)
+                .replace(R.id.fragment_container, AddPaymentFragment.newInstance(), AddPaymentFragment.TAG)
                 .addToBackStack(BACK_STACK_ROOT_TAG)
                 .commit();
     }

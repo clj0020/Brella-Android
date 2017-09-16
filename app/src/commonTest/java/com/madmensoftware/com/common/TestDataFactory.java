@@ -19,64 +19,64 @@ public class TestDataFactory {
         return UUID.randomUUID().toString();
     }
 
-    public static Bar makePokemon(String id) {
-        Bar bar = new Bar();
-        bar.id = id;
-        bar.name = randomUuid() + id;
-        bar.stats = makeStatisticList(3);
-        bar.sprites = makeSprites();
-        return bar;
-    }
+//    public static Bar makePokemon(String id) {
+//        Bar bar = new Bar();
+//        bar.id = id;
+//        bar.name = randomUuid() + id;
+//        bar.stats = makeStatisticList(3);
+//        bar.sprites = makeSprites();
+//        return bar;
+//    }
+//
+//    public static List<String> makePokemonNamesList(int count) {
+//        List<String> pokemonList = new ArrayList<>();
+//        for (int i = 0; i < count; i++) {
+//            pokemonList.add(makePokemon(String.valueOf(i)).name);
+//        }
+//        return pokemonList;
+//    }
 
-    public static List<String> makePokemonNamesList(int count) {
-        List<String> pokemonList = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            pokemonList.add(makePokemon(String.valueOf(i)).name);
-        }
-        return pokemonList;
-    }
-
-    public static List<String> makePokemonNameList(List<NamedResource> pokemonList) {
-        List<String> names = new ArrayList<>();
-        for (NamedResource pokemon : pokemonList) {
-            names.add(pokemon.name);
-        }
-        return names;
-    }
-
-    public static Statistic makeStatistic() {
-        Statistic statistic = new Statistic();
-        statistic.baseStat = random.nextInt();
-        statistic.stat = makeNamedResource(randomUuid());
-        return statistic;
-    }
-
-    public static List<Statistic> makeStatisticList(int count) {
-        List<Statistic> statisticList = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            statisticList.add(makeStatistic());
-        }
-        return statisticList;
-    }
-
-    public static Sprites makeSprites() {
-        Sprites sprites = new Sprites();
-        sprites.frontDefault = randomUuid();
-        return sprites;
-    }
-
-    public static NamedResource makeNamedResource(String unique) {
-        NamedResource namedResource = new NamedResource();
-        namedResource.name = randomUuid() + unique;
-        namedResource.url = randomUuid();
-        return namedResource;
-    }
-
-    public static List<NamedResource> makeNamedResourceList(int count) {
-        List<NamedResource> namedResourceList = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            namedResourceList.add(makeNamedResource(String.valueOf(i)));
-        }
-        return namedResourceList;
-    }
+//    public static List<String> makePokemonNameList(List<NamedResource> pokemonList) {
+//        List<String> names = new ArrayList<>();
+//        for (NamedResource pokemon : pokemonList) {
+//            names.add(pokemon.name);
+//        }
+//        return names;
+//    }
+//
+//    public static Statistic makeStatistic() {
+//        Statistic statistic = new Statistic();
+//        statistic.baseStat = random.nextInt();
+//        statistic.stat = makeNamedResource(randomUuid());
+//        return statistic;
+//    }
+//
+//    public static List<Statistic> makeStatisticList(int count) {
+//        List<Statistic> statisticList = new ArrayList<>();
+//        for (int i = 0; i < count; i++) {
+//            statisticList.add(makeStatistic());
+//        }
+//        return statisticList;
+//    }
+//
+//    public static Sprites makeSprites() {
+//        Sprites sprites = new Sprites();
+//        sprites.frontDefault = randomUuid();
+//        return sprites;
+//    }
+//
+//    public static NamedResource makeNamedResource(String unique) {
+//        NamedResource namedResource = new NamedResource();
+//        namedResource.name = randomUuid() + unique;
+//        namedResource.url = randomUuid();
+//        return namedResource;
+//    }
+//
+//    public static List<NamedResource> makeNamedResourceList(int count) {
+//        List<NamedResource> namedResourceList = new ArrayList<>();
+//        for (int i = 0; i < count; i++) {
+//            namedResourceList.add(makeNamedResource(String.valueOf(i)));
+//        }
+//        return namedResourceList;
+//    }
 }

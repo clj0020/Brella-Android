@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <LinearLayout
+        android:id="@+id/add_payment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="Add Card Information"/>
+
+        <com.stripe.android.view.CardInputWidget
+            android:id="@+id/stripe_card_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/add_payment_submit"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:text="Submit"/>
+
+
+    </LinearLayout>
+
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+</LinearLayout>

@@ -5,12 +5,14 @@ import android.content.Context;
 
 import com.facebook.stetho.Stetho;
 import com.madmensoftware.com.data.model.response.Bar;
+import com.madmensoftware.com.data.model.response.User;
 import com.madmensoftware.com.injection.component.AppComponent;
 import com.madmensoftware.com.injection.component.DaggerAppComponent;
 import com.madmensoftware.com.injection.module.AppModule;
 import com.madmensoftware.com.injection.module.NetworkModule;
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 import com.singhajit.sherlock.core.Sherlock;
 import com.squareup.leakcanary.LeakCanary;
 import com.tspoon.traceur.Traceur;
@@ -44,6 +46,7 @@ public class MvpStarterApplication extends Application {
         Parse.enableLocalDatastore(this);
 
         ParseObject.registerSubclass(Bar.class);
+        ParseUser.registerSubclass(User.class);
 
         Parse.initialize(this);
     }

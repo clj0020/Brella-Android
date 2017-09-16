@@ -11,8 +11,10 @@ import java.util.List;
 
 import com.madmensoftware.com.common.TestDataFactory;
 import com.madmensoftware.com.data.DataManager;
+import com.madmensoftware.com.data.local.DbManager;
 import com.madmensoftware.com.data.model.response.Bar;
 import com.madmensoftware.com.data.remote.ParseService;
+import com.madmensoftware.com.data.remote.StripeService;
 import com.madmensoftware.com.util.RxSchedulersOverrideRule;
 import io.reactivex.Single;
 
@@ -32,11 +34,18 @@ public class DataManagerTest {
     @Mock
     private ParseService mockParseService;
 
+    @Mock
+    private StripeService mockStripeService;
+
+    @Mock
+    private DbManager mockDbManager;
+
+
     private DataManager dataManager;
 
     @Before
     public void setUp() {
-        dataManager = new DataManager(mockParseService);
+        dataManager = new DataManager(mockParseService, mockStripeService, mockDbManager);
     }
 
 //    @Test

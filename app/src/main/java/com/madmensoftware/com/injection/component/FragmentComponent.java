@@ -2,6 +2,7 @@ package com.madmensoftware.com.injection.component;
 
 import dagger.Subcomponent;
 
+import com.madmensoftware.com.ui.add_payment.AddPaymentFragment;
 import com.madmensoftware.com.ui.bar_detail.BarDetailFragment;
 import com.madmensoftware.com.ui.bar_list.BarListFragment;
 import com.madmensoftware.com.ui.events.EventsFragment;
@@ -38,5 +39,7 @@ public interface FragmentComponent {
     void inject(SettingsFragment settingsFragment);
 
     void inject(FriendsFragment friendsFragment);
+
+    void inject(AddPaymentFragment addPaymentFragment);
 
 }

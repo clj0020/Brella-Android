@@ -4,12 +4,15 @@ import android.util.Log;
 
 import com.madmensoftware.com.data.DataManager;
 import com.madmensoftware.com.data.model.response.Bar;
+import com.madmensoftware.com.data.model.response.User;
 import com.madmensoftware.com.injection.ConfigPersistent;
 import com.madmensoftware.com.ui.base.BasePresenter;
 import com.madmensoftware.com.util.SchedulerProvider;
 import com.madmensoftware.com.util.ViewUtil;
 import com.madmensoftware.com.util.rx.scheduler.SchedulerUtils;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.stripe.android.model.Customer;
 
 import java.util.List;
 
@@ -24,6 +27,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import rx.Subscriber;
+import rx.parse2.ParseObservable;
 import timber.log.Timber;
 
 /**
@@ -57,16 +61,41 @@ public class RegistrationPresenter extends BasePresenter<RegistrationMvpView> {
         }
     }
 
-    public void registrationSubmitted(ParseUser user) {
+    public void registrationSubmitted(User user) {
         checkViewAttached();
         getView().showProgress(true);
 
         compositeDisposable.add(getDataManager()
                 .signUp(user)
-                .subscribeWith(new DisposableObserver<ParseUser>() {
+                .subscribeWith(new DisposableObserver<String>() {
                     @Override
-                    public void onNext(ParseUser parseUser) {
+                    public void onNext(String customerId) {
 
+                        user.setCustomerId(customerId);
+
+                        try {
+                            user.signUp();
+
+                            if (!isViewAttached()) {
+                                Timber.e("View is not attached.");
+                                return;
+                            }
+
+                            getView().hideKeyboard();
+                            getView().showProgress(false);
+                            getView().showBarListFragment();
+
+                        }
+                        catch (ParseException e) {
+                            if (!isViewAttached()) {
+                                Timber.e("View is not attached.");
+                                return;
+                            }
+
+                            getView().hideKeyboard();
+                            getView().showProgress(false);
+                            getView().showError(e);
+                        }
                     }
 
                     @Override
@@ -84,14 +113,16 @@ public class RegistrationPresenter extends BasePresenter<RegistrationMvpView> {
 
                     @Override
                     public void onComplete() {
-                        if (!isViewAttached()) {
-                            Timber.e("View is not attached.");
-                            return;
-                        }
+                        Log.i("OnComplete", "onCompleteCalled");
 
-                        getView().hideKeyboard();
-                        getView().showProgress(false);
-                        getView().showBarListFragment();
+//                        if (!isViewAttached()) {
+//                            Timber.e("View is not attached.");
+//                            return;
+//                        }
+//
+//                        getView().hideKeyboard();
+//                        getView().showProgress(false);
+//                        getView().showBarListFragment();
                     }
         }));
 
